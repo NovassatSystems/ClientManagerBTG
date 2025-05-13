@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="ClientManagerBTG.Features.Clients.List.ClientEditPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Clientes"
+    Padding="16"
+    BackgroundColor="#1C233B"
+    Shell.FlyoutItemIsVisible="False"
+    Shell.NavBarIsVisible="False">
+
+    <VerticalStackLayout Spacing="16">
+        <Label
+            Background="Transparent"
+            FontSize="Large"
+            Text="{Binding Name, StringFormat='Editar usuário: {0}'}"
+            TextColor="White">
+            <Label.Triggers>
+                <DataTrigger
+                    Binding="{Binding IsNew}"
+                    TargetType="Label"
+                    Value="True">
+                    <Setter Property="Text" Value="Criar novo usuário" />
+                </DataTrigger>
+            </Label.Triggers>
+        </Label>
+        <Entry Placeholder="Nome" Text="{Binding Name}" />
+        <Entry Placeholder="Sobrenome" Text="{Binding Lastname}" />
+        <Entry
+            x:Name="AgeEntry"
+            Keyboard="Numeric"
+            Placeholder="Idade"
+            Text="{Binding AgeText, Mode=TwoWay}"
+            TextChanged="AgeEntry_TextChanged" />
+
+        <Entry Placeholder="Endereço" Text="{Binding Address}" />
+
+        <HorizontalStackLayout HorizontalOptions="End" Spacing="10">
+            <Button
+                x:Name="SaveButton"
+                Command="{Binding SaveCommand}"
+                Text="Salvar"
+                TextColor="White">
+
+                <Button.VisualStateManager.VisualStateGroups>
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#418fde" />
+                                    <Setter Property="TextColor" Value="White" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Disabled">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="#6993B3" />
+                                    <Setter Property="Opacity" Value="0.6" />
+
+                                    <Setter Property="TextColor" Value="#eeeeee" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </Button.VisualStateManager.VisualStateGroups>
+            </Button>
+
+            <Button
+                BackgroundColor="#D01619"
+                Command="{Binding CancelCommand}"
+                Text="Cancelar"
+                TextColor="White" />
+        </HorizontalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>

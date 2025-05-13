@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="ClientManagerBTG.Features.Clients.List.ClientsListPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behavior="clr-namespace:ClientManagerBTG.Shared.Behaviors"
+    x:Name="root"
+    Title="Clientes"
+    Padding="16"
+    BackgroundColor="#1C233B"
+    Shell.FlyoutItemIsVisible="False"
+    Shell.NavBarIsVisible="False">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label">
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="VerticalTextAlignment" Value="Center" />
+                <Setter Property="TextColor" Value="Black" />
+                <Setter Property="FontFamily" Value="PrometoMedium" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,Auto,*,Auto">
+        <Image
+            Grid.Row="0"
+            Margin="0,0,0,64"
+            HeightRequest="128"
+            HorizontalOptions="Start"
+            Source="btg.png" />
+
+        <VerticalStackLayout Grid.Row="1">
+            <Label
+                Margin="0,0,0,32"
+                FontSize="Large"
+                Text="Lista de Clientes BTG"
+                TextColor="White" />
+            <Border
+                BackgroundColor="White"
+                Stroke="Transparent"
+                StrokeShape="{RoundRectangle CornerRadius='8,0,0,0',
+                                             BackgroundColor=White}"
+                StrokeThickness="0"
+                TranslationY="12">
+
+                <Grid
+                    Padding="16"
+                    BackgroundColor="White"
+                    ColumnDefinitions="64,300,300,100,*,80,80"
+                    TranslationY="-12">
+                    <Label Grid.Column="1" Text="Nome" />
+                    <Label Grid.Column="2" Text="Sobrenome" />
+                    <Label Grid.Column="3" Text="Idade" />
+                    <Label Grid.Column="4" Text="Endereço" />
+                    <Label
+                        Grid.Column="5"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        Text="Editar"
+                        WidthRequest="80" />
+                    <Label
+                        Grid.Column="6"
+                        HorizontalOptions="Center"
+                        HorizontalTextAlignment="Center"
+                        Text="Excluir"
+                        WidthRequest="80" />
+                </Grid>
+            </Border>
+        </VerticalStackLayout>
+        <Border
+            BackgroundColor="White"
+            HeightRequest="80"
+            HorizontalOptions="End"
+            Stroke="Transparent"
+            StrokeShape="{RoundRectangle CornerRadius='8,8,0,0'}"
+            StrokeThickness="0"
+            TranslationY="82"
+            VerticalOptions="End"
+            WidthRequest="80">
+            <Button
+                BackgroundColor="Transparent"
+                Command="{Binding OpenAddClientCommand}"
+                HeightRequest="64"
+                ImageSource="add.png"
+                WidthRequest="64" />
+        </Border>
+
+        <ScrollView Grid.Row="2" TranslationY="-12">
+            <VerticalStackLayout Padding="0,16,0,0" BindableLayout.ItemsSource="{Binding AllClients}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <Border
+                            x:Name="ItemBorder"
+                            Margin="0,0,0,8"
+                            BackgroundColor="White"
+                            Stroke="Transparent"
+                            StrokeShape="{RoundRectangle CornerRadius=8,
+                                                         BackgroundColor=White}"
+                            StrokeThickness="0">
+                            <Border.Behaviors>
+                                <behavior:AnimateOnNewBehavior />
+                            </Border.Behaviors>
+                            <Grid Padding="16" ColumnDefinitions="64,300,300,100,*,80,80">
+                                <Image
+                                    Margin="0,0,8,0"
+                                    Aspect="AspectFit"
+                                    HeightRequest="64"
+                                    Source="user.png" />
+                                <Label
+                                    Grid.Column="1"
+                                    FontFamily="PrometoLight"
+                                    Text="{Binding Name}" />
+                                <Label
+                                    Grid.Column="2"
+                                    FontFamily="PrometoLight"
+                                    Text="{Binding Lastname}" />
+                                <Label
+                                    Grid.Column="3"
+                                    FontFamily="PrometoLight"
+                                    Text="{Binding Age, StringFormat='{0} anos'}" />
+                                <Label
+                                    Grid.Column="4"
+                                    FontFamily="PrometoLight"
+                                    Text="{Binding Address}" />
+                                <Button
+                                    Grid.Column="5"
+                                    Margin="16,0"
+                                    Padding="8"
+                                    BackgroundColor="Transparent"
+                                    Command="{Binding BindingContext.OpenEditClientCommand, Source={x:Reference root}}"
+                                    CommandParameter="{Binding .}"
+                                    HeightRequest="48"
+                                    HorizontalOptions="Center"
+                                    ImageSource="edit.png" />
+                                <Button
+                                    Grid.Column="6"
+                                    Margin="16,0"
+                                    Padding="8"
+                                    BackgroundColor="Transparent"
+                                    Command="{Binding BindingContext.DeleteClientCommand, Source={x:Reference root}}"
+                                    CommandParameter="{Binding .}"
+                                    HeightRequest="48"
+                                    HorizontalOptions="Center"
+                                    ImageSource="delete.png" />
+                            </Grid>
+
+                            <!--<Border.Triggers>
+                                <DataTrigger
+                                    Binding="{Binding IsNew}"
+                                    TargetType="Border"
+                                    Value="True">
+                                    <Setter Property="BackgroundColor" Value="#1C233B" />
+                                </DataTrigger>
+                            </Border.Triggers>-->
+
+                        </Border>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </VerticalStackLayout>
+        </ScrollView>
+        <HorizontalStackLayout
+            Grid.Row="3"
+            HeightRequest="32"
+            HorizontalOptions="Center">
+
+            <Label
+                FontFamily="PrometoItalic"
+                Text="Desenvolvido por"
+                TextColor="White" />
+            <Label
+                x:Name="LinkedInLabel"
+                Margin="4,0,0,0"
+                FontFamily="PrometoBlackItalic"
+                Text="Peter Novassat"
+                TextColor="White"
+                TextDecorations="Underline">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding OpenLinkedInCommand}" NumberOfTapsRequired="1" />
+                </Label.GestureRecognizers>
+            </Label>
+        </HorizontalStackLayout>
+    </Grid>
+</ContentPage>
